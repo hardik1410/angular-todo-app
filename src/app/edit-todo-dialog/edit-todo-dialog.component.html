@@ -1,0 +1,33 @@
+<h2>Edit Todo</h2>
+<div mat-dialog-content>
+    <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="bi bi-list-task"></i>
+                </span>
+            </div>
+            <input [ngModel]="todo.text" #todoTextField="ngModel" required minlength="2" name="text" type="text"
+                class="form-control" placeholder="type todo text here..." aria-label="New Todo"
+                aria-describedby="basic-addon1">
+            <br>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary text-default"><i class="bi bi-save"></i>Save</button>
+            </div>
+            
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-secondary text-default" (click)="close()"><i class="bi bi-cancel"></i>Cancel</button>
+            </div>
+        </div>
+        <div *ngIf="todoTextField.invalid && showValidationErrors">
+            <p class="text-danger" *ngIf="todoTextField.errors?.required">Todo text is required</p>
+            <p class="text-danger" *ngIf="todoTextField.errors?.minlength">Todo text must be atlease 2 characters.
+            </p>
+        </div>
+
+    </form>
+</div>

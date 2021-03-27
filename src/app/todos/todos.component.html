@@ -2,7 +2,7 @@
     <p class="display-5 text-shadow">Todos</p>
 </div>
 
-<div class="container">
+<div class="container add-todo-box-container">
     <div class="todo-box shadow p-4 mb-5 bg-white rounded">
         <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
             <p class="display-5">New Todo</p>
@@ -13,42 +13,31 @@
                         <i class="bi bi-list-task"></i>
                     </span>
                 </div>
-                <input ngModel #todoTextField="ngModel" required minlength="2" name="text" type="text" class="form-control" placeholder="new todo..."
-                    aria-label="New Todo" aria-describedby="basic-addon1">
+                <input ngModel #todoTextField="ngModel" required minlength="2" name="text" type="text"
+                    class="form-control" placeholder="new todo..." aria-label="New Todo"
+                    aria-describedby="basic-addon1">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary text-default"><i class="bi bi-plus"></i>Add</button>
                 </div>
             </div>
             <div *ngIf="todoTextField.invalid && showValidationErrors">
                 <p class="text-danger" *ngIf="todoTextField.errors?.required">Todo text is required</p>
-            <p class="text-danger" *ngIf="todoTextField.errors?.minlength">Todo text must be atlease 2 characters.</p>
+                <p class="text-danger" *ngIf="todoTextField.errors?.minlength">Todo text must be atlease 2 characters.
+                </p>
             </div>
-            
+
         </form>
     </div>
 </div>
 
 <div class="container">
     <div class="todo-list">
-        <div class="todo-item" *ngFor="let todo of todos" [class.completed]="todo. completed">
-            <div class="check-box">
-                <i class="bi bi-check2"></i>
-            </div>
 
-            <div class="todo-text">
-                {{ todo.text }}
-            </div>
-
-            <div class="todo-controls-box">
-                <div class="todo-control-button">
-                    <i class="bi bi-pencil-fill"></i>
-                </div>
-
-                <div class="todo-control-button danger">
-                    <i class="bi bi-trash-fill"></i>
-                </div>
-            </div>
-        </div>
-
+        <app-todo-item *ngFor="let todo of todos" 
+        [todo]="todo" 
+        (todoClicked)="setCompleted(todo)"
+        (editClicked)="editTodo(todo)"
+        (deleteClicked)="deleteTodo(todo)"></app-todo-item>
+        
     </div>
 </div>
