@@ -6,26 +6,53 @@ import { Todo } from './todo.model';
 })
 export class DataService {
 
-  todos: Todo[] = [
-    new Todo('First todo item', true),
-    new Todo('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,')
-  ];
-
-  constructor() { }
+  constructor() { 
+    
+  }
 
   getAllTodos() {
-    return this.todos;
+    let localStorageItem = JSON.parse(localStorage.getItem('todos')!);
+    return localStorageItem == null ? [] : localStorageItem.todos;
+    // return this.todos;
   }
 
   addTodo(todo: Todo) {
-    this.todos.push(todo);
+    // this.todos.push(todo);
+    // let todo = new Todo(todo)
+    console.log(todo);
+    let todos = this.getAllTodos();
+    console.log(todos)
+    todos.push(todo);
+
+    this.setLocalStorageTodos(todos);
   }
 
   updateTodo(index: number, updatedTodo: Todo) {
-    this.todos[index] = updatedTodo;
+    let todos = this.getAllTodos();
+    console.log(updatedTodo)
+    todos[index] = updatedTodo;
+    this.setLocalStorageTodos(todos)
   }
 
   deleteTodo(index: number) {
-    this.todos.splice(index, 1);
+    let todos:Todo[] = this.getAllTodos();
+  
+    todos.splice(index, 1);
+    
+    this.setLocalStorageTodos(todos)
+  }
+
+  updateStatus(index: number) {
+    let todos:Todo[] = this.getAllTodos();
+    
+    let tempTodo = todos[index]
+    
+    tempTodo.completed = !tempTodo.completed
+    todos[index] = tempTodo
+    this.setLocalStorageTodos(todos)
+  }
+
+  private setLocalStorageTodos(todos: Todo[]): void {
+    localStorage.setItem('todos', JSON.stringify({todos: todos}));
   }
 }
